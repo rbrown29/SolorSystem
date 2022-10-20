@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Solor System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+    <canvas id="solar-canvas" width="900" height="900" style="border: 1px solid;color: grey;"></canvas>
+    <script type="text/JavaScript" src="planetData.js"></script>
+    <script type="text/JavaScript" src="app.js"></script>
+    <script type="text/JavaScript" src="drawStar.js"></script>
+    <script type="text/JavaScript" src="drawPlanet.js"></script>
+    <script type="text/JavaScript" src="drawOrbit.js"></script>
+    <script>
+        window.onload = function () {
+
+            const scaleFactor = .65;
+            let maxDistanceShowing = Math.max(...planets.map(function(planet) {
+                return planet;
+            }));
+
+            for (const planet of planets) {
+                const isEven = planet.dist % 2 === 0;
+                const planetX = sunPosition.x + (planet.dist * (1 * (isEven ? 1 : -1) * scaleFactor));
+                const planetY = sunPosition.y + (planet.dist * 0 * scaleFactor);
+                drawPlanet(ctx, { radius: planet.radius * scaleFactor, color: planet.color, name: planet.name, x: planetX, y: planetY });
+                drawOrbit(ctx, { radius: planet.dist * scaleFactor, x: sunPosition.x, y: sunPosition.y });
+            };
+            drawStar(ctx, sunData, sunPosition);
+        }
+    </script>
+</body>
+
+</html>
